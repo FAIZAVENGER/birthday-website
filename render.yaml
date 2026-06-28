@@ -1,0 +1,17 @@
+services:
+  - type: static_site
+    name: birthday-website
+    runtime: static
+    build_command: ""
+    static_publish_path: .
+    headers:
+      - path: /assets/vendor/*.js
+        name: Content-Type
+        value: application/javascript
+      - path: /assets/vendor/*.mjs
+        name: Content-Type
+        value: application/javascript
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
