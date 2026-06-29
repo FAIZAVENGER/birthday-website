@@ -83,18 +83,7 @@ If anything looks off, you can run a tiny local server instead:
   terminal there, then run the same command (use `python` if `python3`
   isn't recognized).
 
-## 5. The secret passcode 🔒
 
-The love letter is locked behind a passcode: **17-05-26**. She can type it
-with or without the dashes (`170526` also works). If you want to change it,
-open `index.html` in any text editor, search for:
-
-```js
-const CORRECT_PASSCODE = "170526";
-```
-
-and replace `170526` with your own date, digits only (e.g. for 04-08-23,
-use `040823`).
 
 ## 6. Want to tweak anything else?
 
