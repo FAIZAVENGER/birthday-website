@@ -8,6 +8,11 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600;1,700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Poppins:wght@300;400;500;600&family=Caveat:wght@500;600;700&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
 
+<!-- React from CDN - Fixes MIME type issues on Render -->
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
 <style>
 /* ============================================================
    DESIGN TOKENS
@@ -1227,6 +1232,332 @@ button{ font-family: inherit; cursor:pointer; border:none; background:none; }
 }
 
 /* ============================================================
+   FAMILY GALLERY SECTION — NEW
+   ============================================================ */
+.family-gallery-section {
+  background: var(--cream-soft);
+  padding: 110px 0 100px;
+  text-align: center;
+}
+.family-gallery-section .section-title {
+  color: var(--maroon);
+}
+.family-gallery-section .section-title em {
+  color: var(--deep-rose);
+}
+.family-gallery-section .section-lede {
+  max-width: 680px;
+  margin: 0 auto 40px;
+}
+
+/* Family Gallery Trigger Button */
+.family-trigger-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+.family-btn {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, var(--white-soft), var(--cream-soft) 70%);
+  border: 2px solid var(--rose-gold);
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  font-size: 2.5rem;
+  gap: 4px;
+}
+.family-btn:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 20px 46px rgba(92,49,21,0.22);
+}
+.family-btn .btn-label {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--maroon);
+  letter-spacing: 1px;
+}
+.family-btn .btn-sub {
+  font-family: var(--font-script);
+  font-style: italic;
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+}
+.family-btn .ring {
+  position: absolute; inset: -8px;
+  border-radius: 50%;
+  border: 1px dashed var(--rose-gold-lt);
+  animation: spinSlow 18s linear infinite;
+}
+.family-hint {
+  font-family: var(--font-script);
+  font-style: italic;
+  color: var(--ink-soft);
+  font-size: 1rem;
+}
+
+/* Family Gallery Doodle */
+.family-doodle-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.family-doodle {
+  position: absolute;
+  top: -55px;
+  right: -120px;
+  width: 160px;
+  pointer-events: none;
+  animation: doodleWiggle 2.4s ease-in-out infinite;
+  transform-origin: bottom left;
+  z-index: 5;
+}
+
+/* ============================================================
+   FAMILY GALLERY OVERLAY — FULL-SCREEN WITH FLOATING PHOTOS
+   ============================================================ */
+.family-overlay {
+  position: fixed; inset: 0;
+  z-index: 750;
+  background: radial-gradient(ellipse at 50% 60%, rgba(80,18,32,0.55) 0%, transparent 70%),
+    radial-gradient(ellipse at 20% 100%, rgba(60,10,20,0.7) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 100%, rgba(60,10,20,0.7) 0%, transparent 50%),
+    linear-gradient(160deg, #1a0810 0%, #2e0e1a 40%, #1a0810 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: backdropIn 0.5s ease;
+  overflow: hidden;
+}
+
+.family-container {
+  position: relative;
+  width: 100%;
+  max-width: 95vw;
+  height: 92vh;
+  max-height: 92vh;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 0 0 1px rgba(196,149,103,0.2), 0 40px 100px rgba(0,0,0,0.7);
+  background:
+    url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E"),
+    radial-gradient(circle at 30% 20%, rgba(163,50,74,0.08), transparent 50%),
+    radial-gradient(circle at 70% 80%, rgba(196,149,103,0.08), transparent 50%),
+    linear-gradient(170deg, #FFFDF8 0%, #FBF6EC 50%, #F8F0E3 100%);
+  padding: 30px 40px 40px;
+  overflow-y: auto;
+}
+
+.family-close {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(92,49,21,0.12);
+  color: var(--maroon);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+  transition: background 0.2s ease, transform 0.2s ease;
+  font-size: 1.3rem;
+  border: none;
+  cursor: pointer;
+}
+.family-close:hover {
+  background: rgba(92,49,21,0.22);
+  transform: rotate(90deg);
+}
+
+/* Family Gallery Title */
+.family-gallery-title {
+  text-align: center;
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 2;
+}
+.family-gallery-title h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 2.2rem;
+  color: var(--maroon);
+  margin: 0 0 6px;
+}
+.family-gallery-title .subtitle {
+  font-family: var(--font-script);
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--ink-soft);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Main Family Photos Layout */
+.family-main-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin: 20px 0;
+  position: relative;
+  z-index: 2;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.family-main-card {
+  width: 100%;
+  max-width: 420px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 28px rgba(0,0,0,0.12);
+  background: var(--white-soft);
+  border: 1px solid var(--rose-gold-lt);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.family-main-card:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.18);
+}
+.family-main-card .card-label {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--deep-rose);
+  padding: 10px 16px 6px;
+  text-align: center;
+  letter-spacing: 1px;
+  background: rgba(255,255,255,0.5);
+}
+.family-main-card img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  display: block;
+}
+.family-main-card .card-missing {
+  width: 100%;
+  height: 280px;
+  background: repeating-linear-gradient(135deg, var(--cream-soft), var(--cream-soft) 10px, var(--cream) 10px, var(--cream) 20px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  color: var(--rose-gold-dk);
+  border: 2px dashed var(--rose-gold-lt);
+}
+
+/* Floating Side Photos */
+.family-floating-left,
+.family-floating-right {
+  position: absolute;
+  top: 60px;
+  bottom: 60px;
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+.family-floating-left { left: 10px; }
+.family-floating-right { right: 10px; }
+
+.floating-family-card {
+  position: absolute;
+  width: 85px;
+  background: #fff8f0;
+  border-radius: 6px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2), inset 0 0 0 1px rgba(255,255,255,0.6);
+  padding: 5px 5px 16px;
+  animation: floatFamily var(--fdur, 18s) ease-in-out var(--fdelay, 0s) infinite;
+  transform-origin: center bottom;
+  will-change: transform, opacity;
+}
+.floating-family-card img {
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  display: block;
+  border-radius: 2px;
+}
+.floating-family-card .floating-missing {
+  width: 100%;
+  aspect-ratio: 3/4;
+  background: repeating-linear-gradient(135deg, var(--cream-soft), var(--cream-soft) 5px, var(--cream) 5px, var(--cream) 10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: var(--rose-gold-dk);
+  border-radius: 2px;
+}
+.floating-family-card .floating-label {
+  font-family: var(--font-hand);
+  font-size: 0.55rem;
+  color: #7a5a50;
+  text-align: center;
+  margin-top: 4px;
+  line-height: 1.1;
+}
+.floating-family-card::after {
+  content: '❤';
+  position: absolute;
+  bottom: 3px; right: 5px;
+  font-size: 0.5rem;
+  color: var(--deep-rose);
+  opacity: 0.4;
+}
+
+.family-floating-left .floating-family-card { --tilt: -1; left: 4px; }
+.family-floating-right .floating-family-card { --tilt: 1; right: 4px; }
+
+@keyframes floatFamily {
+  0%   { transform: translateY(0) rotate(calc(var(--frot, -5deg))); opacity: 0; }
+  8%   { opacity: 1; }
+  35%  { transform: translateY(calc(-30vh)) rotate(calc(var(--frot, -5deg) * -0.5)); opacity: 1; }
+  65%  { transform: translateY(calc(-65vh)) rotate(calc(var(--frot, -5deg) * 0.7)); opacity: 1; }
+  90%  { opacity: 0.6; }
+  100% { transform: translateY(calc(-108vh)) rotate(calc(var(--frot, -5deg))); opacity: 0; }
+}
+
+/* Hide floating photos on small screens */
+@media (max-width: 768px) {
+  .family-floating-left,
+  .family-floating-right { width: 60px; }
+  .floating-family-card { width: 50px; padding: 4px 4px 12px; }
+  .family-main-card img { height: 200px; }
+  .family-main-card .card-missing { height: 200px; }
+  .family-gallery-title h2 { font-size: 1.6rem; }
+  .family-container { padding: 20px 16px 30px; }
+}
+@media (max-width: 480px) {
+  .family-floating-left,
+  .family-floating-right { width: 45px; top: 40px; bottom: 40px; }
+  .floating-family-card { width: 38px; padding: 3px 3px 10px; }
+  .floating-family-card .floating-label { font-size: 0.4rem; }
+  .family-main-card img { height: 160px; }
+  .family-main-card .card-missing { height: 160px; }
+  .family-gallery-title h2 { font-size: 1.3rem; }
+  .family-gallery-title .subtitle { font-size: 0.85rem; }
+  .family-container { padding: 16px 10px 20px; }
+}
+
+/* ============================================================
    LETTER READER — ROMANTIC FULL-SCREEN EXPERIENCE
    ============================================================ */
 .letter-overlay{
@@ -1668,11 +1999,6 @@ button{ font-family: inherit; cursor:pointer; border:none; background:none; }
 
 <div id="root"></div>
 
-<!-- React + Babel are bundled locally in assets/vendor -->
-<script src="assets/vendor/react.production.min.js"></script>
-<script src="assets/vendor/react-dom.production.min.js"></script>
-<script src="assets/vendor/babel.min.js"></script>
-
 <script type="text/babel">
 const { useState, useEffect, useRef, useCallback } = React;
 
@@ -1716,6 +2042,31 @@ const REASONS = [
 
 const CORRECT_PASSCODE = "170526";
 const TIMELINE_PASSCODE = "060626";
+
+/* ============================================================
+   FAMILY GALLERY DATA
+   ============================================================ */
+const FAMILY_DATA = {
+  mainPhotos: [
+    { label: "💙 My Family", file: "assets/My family.jpeg" },
+    { label: "💞 Our Family", file: "assets/Our family.jpeg" },
+    { label: "💗 Your Family", file: "assets/Your family.jpeg" }
+  ],
+  leftFloating: [
+    { name: "Pappa", file: "assets/Pappa.jpeg" },
+    { name: "Mummy", file: "assets/Mummy.jpeg" },
+    { name: "Safia", file: "assets/Safia.jpeg" },
+    { name: "Sadath", file: "assets/Sadath.jpeg" }
+  ],
+  rightFloating: [
+    { name: "Abbu", file: "assets/Abbu.jpeg" },
+    { name: "Mamma", file: "assets/Mamma.jpeg" },
+    { name: "Bhaiya", file: "assets/Bhaiya.jpeg" },
+    { name: "Bhabhi", file: "assets/Bhabhi.jpeg" },
+    { name: "Faizan", file: "assets/Faizan.jpeg" },
+    { name: "Salahuddin", file: "assets/Salahuddin.jpeg" }
+  ]
+};
 
 /* ============================================================
    TIMELINE DATA — WITH INTRODUCTION AS FIRST SLIDE
@@ -1874,7 +2225,7 @@ const TIMELINE_DATA = [
 
 /* Letter content */
 const LETTER = [
-  { t: "salutation", v: "To My Dearest Safia," },
+  { t: "salutation", v: "To My Dearest Saifia," },
   { t: "para", v: "Assalamu Alaikum wa Rahmatullahi wa Barakatuh, my love. ❤️" },
   { t: "para", v: "If you're reading this, it means you've unlocked the most personal part of this little surprise. I wanted this letter to belong only to you, because these words were never meant for anyone else's eyes." },
   { t: "heading", v: "Happy Birthday, my beautiful. 🎂🤍" },
@@ -2201,7 +2552,7 @@ function LoadingScreen({ onDone }) {
     <div className={"loading-screen" + (fading ? " fade-out" : "")}>
       <div className="loading-heart">❤️</div>
       <div className="loading-title">Preparing something made with love</div>
-      <div className="loading-sub">For my Safia</div>
+      <div className="loading-sub">For my Saifia</div>
       <div className="loading-bar-track">
         <div className="loading-bar-fill" style={{ width: pct + "%" }}></div>
       </div>
@@ -2221,7 +2572,7 @@ function HeroSection({ onOpen }) {
       <AmbientLayer count={12} />
       <div className="hero-frame"></div>
       <div className="hero-content">
-        <div className="hero-name">For my dearest Safia</div>
+        <div className="hero-name">For my dearest Saifia</div>
         <h1 className="hero-title">Happy Birthday<br /><em>My Beautiful Wife</em></h1>
         <p className="hero-sub">❤️</p>
         <div className="hero-date">30th June</div>
@@ -2833,7 +3184,6 @@ function TimelineReader({ onClose }) {
     }
   }, [currentIndex]);
 
-  // Keyboard navigation
   useEffect(() => {
     const handleKey = (e) => {
       if (e.key === 'ArrowRight' || e.key === 'ArrowDown') next();
@@ -2859,7 +3209,6 @@ function TimelineReader({ onClose }) {
             const pageNum = idx + 1;
             
             if (isIntro) {
-              // Introduction Slide
               const intro = item.content;
               return (
                 <div key={idx} className="timeline-slide intro-slide">
@@ -2882,7 +3231,6 @@ function TimelineReader({ onClose }) {
               );
             }
             
-            // Regular story slide
             const hasImg = item.img !== null;
             return (
               <div key={idx} className="timeline-slide styled-scroll">
@@ -2918,7 +3266,6 @@ function TimelineReader({ onClose }) {
           })}
         </div>
 
-        {/* Navigation Arrows - NO DOTS */}
         <button 
           className="timeline-nav prev" 
           onClick={prev}
@@ -2937,6 +3284,182 @@ function TimelineReader({ onClose }) {
         </button>
       </div>
     </div>
+  );
+}
+
+/* ============================================================
+   FAMILY GALLERY OVERLAY
+   ============================================================ */
+function FamilyGalleryOverlay({ onClose }) {
+  const [missing, setMissing] = useState({});
+
+  // Floating photo configs
+  const leftConfigs = FAMILY_DATA.leftFloating.map((person, i) => ({
+    ...person,
+    delay: i * 2.5 + "s",
+    dur: 18 + Math.random() * 6 + "s",
+    rot: (Math.random() * 8 - 4) + "deg"
+  }));
+
+  const rightConfigs = FAMILY_DATA.rightFloating.map((person, i) => ({
+    ...person,
+    delay: i * 2 + "s",
+    dur: 20 + Math.random() * 6 + "s",
+    rot: (Math.random() * 8 - 4) + "deg"
+  }));
+
+  return (
+    <div className="family-overlay" onClick={onClose}>
+      <div className="family-container" onClick={(e) => e.stopPropagation()}>
+        <button className="family-close" onClick={onClose} aria-label="Close family gallery">✕</button>
+
+        {/* Title */}
+        <div className="family-gallery-title">
+          <h2>Two Families, One Beautiful Journey</h2>
+          <p className="subtitle">
+            "Some love stories begin with two hearts. Ours began with two families, countless du'as, and Allah's perfect plan. Alhamdulillah for every smile, every prayer, and every moment that brought us together."
+          </p>
+        </div>
+
+        {/* Left Floating Photos */}
+        <div className="family-floating-left">
+          {leftConfigs.map((person, idx) => (
+            <div
+              key={`left-${idx}`}
+              className="floating-family-card"
+              style={{
+                "--fdelay": person.delay,
+                "--fdur": person.dur,
+                "--frot": person.rot,
+                bottom: `-${120 + idx * 40}px`
+              }}
+            >
+              {missing[`left-${idx}`] ? (
+                <div className="floating-missing">👤</div>
+              ) : (
+                <img
+                  src={person.file}
+                  alt={person.name}
+                  onError={() => setMissing(m => ({ ...m, [`left-${idx}`]: true }))}
+                />
+              )}
+              <div className="floating-label">{person.name}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Right Floating Photos */}
+        <div className="family-floating-right">
+          {rightConfigs.map((person, idx) => (
+            <div
+              key={`right-${idx}`}
+              className="floating-family-card"
+              style={{
+                "--fdelay": person.delay,
+                "--fdur": person.dur,
+                "--frot": person.rot,
+                bottom: `-${120 + idx * 40}px`
+              }}
+            >
+              {missing[`right-${idx}`] ? (
+                <div className="floating-missing">👤</div>
+              ) : (
+                <img
+                  src={person.file}
+                  alt={person.name}
+                  onError={() => setMissing(m => ({ ...m, [`right-${idx}`]: true }))}
+                />
+              )}
+              <div className="floating-label">{person.name}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Main Family Photos */}
+        <div className="family-main-grid">
+          {FAMILY_DATA.mainPhotos.map((photo, idx) => (
+            <div key={idx} className="family-main-card">
+              <div className="card-label">{photo.label}</div>
+              {missing[`main-${idx}`] ? (
+                <div className="card-missing">📸</div>
+              ) : (
+                <img
+                  src={photo.file}
+                  alt={photo.label}
+                  onError={() => setMissing(m => ({ ...m, [`main-${idx}`]: true }))}
+                />
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ============================================================
+   FAMILY GALLERY SECTION COMPONENT
+   ============================================================ */
+function FamilyGallerySection() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <section className="family-gallery-section">
+      <div className="container">
+        <Reveal>
+          <span className="eyebrow">Our Families</span>
+          <h2 className="section-title">Two Families, One Beautiful <em>Journey</em></h2>
+          <p className="section-lede">
+            "Some love stories begin with two hearts. Ours began with two families, countless du'as, and Allah's perfect plan. Alhamdulillah for every smile, every prayer, and every moment that brought us together."
+          </p>
+        </Reveal>
+        <Reveal delay={120}>
+          <div className="family-trigger-wrap">
+            <div className="family-doodle-wrap">
+              <button 
+                className="family-btn" 
+                onClick={() => setOpen(true)}
+                aria-label="Open family gallery"
+              >
+                <span className="ring"></span>
+                <span>👨‍👩‍👧‍👦</span>
+                <span className="btn-label">Our Families</span>
+                <span className="btn-sub">Together We Are One</span>
+              </button>
+              <svg className="family-doodle" viewBox="0 0 120 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path
+                  d="M100 12 C80 8, 32 14, 18 50 C10 68, 20 82, 32 88"
+                  stroke="#A3324A" strokeWidth="2.8" strokeLinecap="round"
+                  strokeDasharray="6 4"
+                  fill="none"
+                />
+                <path
+                  d="M32 88 L20 76 M32 88 L44 80"
+                  stroke="#A3324A" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round"
+                />
+                <text
+                  x="62" y="30"
+                  fontFamily="'Caveat', cursive"
+                  fontSize="24"
+                  fontWeight="700"
+                  fill="#A3324A"
+                  textAnchor="middle"
+                  transform="rotate(-14, 62, 30)"
+                >
+                  click me!
+                </text>
+                <g className="doodle-hand">
+                  <text x="80" y="62" fontSize="28" textAnchor="middle">👆</text>
+                </g>
+              </svg>
+            </div>
+            <p className="family-hint">Tap to see our beautiful families</p>
+          </div>
+        </Reveal>
+      </div>
+
+      {open && <FamilyGalleryOverlay onClose={() => setOpen(false)} />}
+    </section>
   );
 }
 
@@ -3241,6 +3764,7 @@ function App() {
       <IslamicSection />
       <LetterSection />
       <TimelineSection />
+      <FamilyGallerySection />
       <footer className="site-footer">
         Made with love, for the woman Allah chose for me. ❤️
       </footer>
