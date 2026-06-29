@@ -1232,7 +1232,7 @@ button{ font-family: inherit; cursor:pointer; border:none; background:none; }
 }
 
 /* ============================================================
-   FAMILY GALLERY SECTION — NEW
+   FAMILY GALLERY SECTION
    ============================================================ */
 .family-gallery-section {
   background: var(--cream-soft);
@@ -1250,7 +1250,6 @@ button{ font-family: inherit; cursor:pointer; border:none; background:none; }
   margin: 0 auto 40px;
 }
 
-/* Family Gallery Trigger Button */
 .family-trigger-wrap {
   display: flex;
   flex-direction: column;
@@ -1304,7 +1303,6 @@ button{ font-family: inherit; cursor:pointer; border:none; background:none; }
   font-size: 1rem;
 }
 
-/* Family Gallery Doodle */
 .family-doodle-wrap {
   position: relative;
   display: inline-flex;
@@ -1323,7 +1321,7 @@ button{ font-family: inherit; cursor:pointer; border:none; background:none; }
 }
 
 /* ============================================================
-   FAMILY GALLERY OVERLAY — FULL-SCREEN WITH FLOATING PHOTOS
+   FAMILY GALLERY OVERLAY — ENLARGED SIDE PHOTOS
    ============================================================ */
 .family-overlay {
   position: fixed; inset: 0;
@@ -1381,7 +1379,6 @@ button{ font-family: inherit; cursor:pointer; border:none; background:none; }
   transform: rotate(90deg);
 }
 
-/* Family Gallery Title */
 .family-gallery-title {
   text-align: center;
   margin-bottom: 24px;
@@ -1414,7 +1411,7 @@ button{ font-family: inherit; cursor:pointer; border:none; background:none; }
   margin: 20px 0;
   position: relative;
   z-index: 2;
-  max-width: 700px;
+  max-width: 500px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -1461,30 +1458,32 @@ button{ font-family: inherit; cursor:pointer; border:none; background:none; }
   border: 2px dashed var(--rose-gold-lt);
 }
 
-/* Floating Side Photos */
+/* ============================================================
+   FLOATING SIDE PHOTOS — ENLARGED
+   ============================================================ */
 .family-floating-left,
 .family-floating-right {
   position: absolute;
-  top: 60px;
-  bottom: 60px;
-  width: 100px;
+  top: 40px;
+  bottom: 40px;
+  width: 160px;
   display: flex;
   flex-direction: column;
   pointer-events: none;
   overflow: hidden;
   z-index: 1;
 }
-.family-floating-left { left: 10px; }
-.family-floating-right { right: 10px; }
+.family-floating-left { left: 8px; }
+.family-floating-right { right: 8px; }
 
 .floating-family-card {
   position: absolute;
-  width: 85px;
+  width: 140px;
   background: #fff8f0;
-  border-radius: 6px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.2), inset 0 0 0 1px rgba(255,255,255,0.6);
-  padding: 5px 5px 16px;
-  animation: floatFamily var(--fdur, 18s) ease-in-out var(--fdelay, 0s) infinite;
+  border-radius: 10px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.25), inset 0 0 0 1px rgba(255,255,255,0.6);
+  padding: 8px 8px 22px;
+  animation: floatFamily var(--fdur, 20s) ease-in-out var(--fdelay, 0s) infinite;
   transform-origin: center bottom;
   will-change: transform, opacity;
 }
@@ -1493,7 +1492,7 @@ button{ font-family: inherit; cursor:pointer; border:none; background:none; }
   aspect-ratio: 3/4;
   object-fit: cover;
   display: block;
-  border-radius: 2px;
+  border-radius: 4px;
 }
 .floating-family-card .floating-missing {
   width: 100%;
@@ -1502,23 +1501,25 @@ button{ font-family: inherit; cursor:pointer; border:none; background:none; }
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
+  font-size: 2rem;
   color: var(--rose-gold-dk);
-  border-radius: 2px;
+  border-radius: 4px;
 }
 .floating-family-card .floating-label {
   font-family: var(--font-hand);
-  font-size: 0.55rem;
+  font-size: 0.85rem;
   color: #7a5a50;
   text-align: center;
-  margin-top: 4px;
+  margin-top: 6px;
   line-height: 1.1;
+  font-weight: 600;
 }
 .floating-family-card::after {
   content: '❤';
   position: absolute;
-  bottom: 3px; right: 5px;
-  font-size: 0.5rem;
+  bottom: 4px;
+  right: 6px;
+  font-size: 0.7rem;
   color: var(--deep-rose);
   opacity: 0.4;
 }
@@ -1535,11 +1536,17 @@ button{ font-family: inherit; cursor:pointer; border:none; background:none; }
   100% { transform: translateY(calc(-108vh)) rotate(calc(var(--frot, -5deg))); opacity: 0; }
 }
 
-/* Hide floating photos on small screens */
+/* Responsive for Family Gallery - ENLARGED */
+@media (max-width: 1024px) {
+  .family-floating-left,
+  .family-floating-right { width: 130px; }
+  .floating-family-card { width: 115px; }
+}
 @media (max-width: 768px) {
   .family-floating-left,
-  .family-floating-right { width: 60px; }
-  .floating-family-card { width: 50px; padding: 4px 4px 12px; }
+  .family-floating-right { width: 100px; top: 30px; bottom: 30px; }
+  .floating-family-card { width: 85px; padding: 6px 6px 16px; }
+  .floating-family-card .floating-label { font-size: 0.7rem; }
   .family-main-card img { height: 200px; }
   .family-main-card .card-missing { height: 200px; }
   .family-gallery-title h2 { font-size: 1.6rem; }
@@ -1547,11 +1554,12 @@ button{ font-family: inherit; cursor:pointer; border:none; background:none; }
 }
 @media (max-width: 480px) {
   .family-floating-left,
-  .family-floating-right { width: 45px; top: 40px; bottom: 40px; }
-  .floating-family-card { width: 38px; padding: 3px 3px 10px; }
-  .floating-family-card .floating-label { font-size: 0.4rem; }
-  .family-main-card img { height: 160px; }
-  .family-main-card .card-missing { height: 160px; }
+  .family-floating-right { width: 70px; top: 20px; bottom: 20px; }
+  .floating-family-card { width: 60px; padding: 4px 4px 12px; }
+  .floating-family-card .floating-label { font-size: 0.5rem; }
+  .floating-family-card::after { font-size: 0.5rem; }
+  .family-main-card img { height: 150px; }
+  .family-main-card .card-missing { height: 150px; }
   .family-gallery-title h2 { font-size: 1.3rem; }
   .family-gallery-title .subtitle { font-size: 0.85rem; }
   .family-container { padding: 16px 10px 20px; }
@@ -3288,12 +3296,12 @@ function TimelineReader({ onClose }) {
 }
 
 /* ============================================================
-   FAMILY GALLERY OVERLAY
+   FAMILY GALLERY OVERLAY — ENLARGED SIDE PHOTOS
    ============================================================ */
 function FamilyGalleryOverlay({ onClose }) {
   const [missing, setMissing] = useState({});
 
-  // Floating photo configs
+  // Floating photo configs with larger sizes
   const leftConfigs = FAMILY_DATA.leftFloating.map((person, i) => ({
     ...person,
     delay: i * 2.5 + "s",
@@ -3313,7 +3321,6 @@ function FamilyGalleryOverlay({ onClose }) {
       <div className="family-container" onClick={(e) => e.stopPropagation()}>
         <button className="family-close" onClick={onClose} aria-label="Close family gallery">✕</button>
 
-        {/* Title */}
         <div className="family-gallery-title">
           <h2>Two Families, One Beautiful Journey</h2>
           <p className="subtitle">
@@ -3321,7 +3328,7 @@ function FamilyGalleryOverlay({ onClose }) {
           </p>
         </div>
 
-        {/* Left Floating Photos */}
+        {/* Left Floating Photos - ENLARGED */}
         <div className="family-floating-left">
           {leftConfigs.map((person, idx) => (
             <div
@@ -3331,7 +3338,7 @@ function FamilyGalleryOverlay({ onClose }) {
                 "--fdelay": person.delay,
                 "--fdur": person.dur,
                 "--frot": person.rot,
-                bottom: `-${120 + idx * 40}px`
+                bottom: `-${150 + idx * 50}px`
               }}
             >
               {missing[`left-${idx}`] ? (
@@ -3348,7 +3355,7 @@ function FamilyGalleryOverlay({ onClose }) {
           ))}
         </div>
 
-        {/* Right Floating Photos */}
+        {/* Right Floating Photos - ENLARGED */}
         <div className="family-floating-right">
           {rightConfigs.map((person, idx) => (
             <div
@@ -3358,7 +3365,7 @@ function FamilyGalleryOverlay({ onClose }) {
                 "--fdelay": person.delay,
                 "--fdur": person.dur,
                 "--frot": person.rot,
-                bottom: `-${120 + idx * 40}px`
+                bottom: `-${150 + idx * 50}px`
               }}
             >
               {missing[`right-${idx}`] ? (
